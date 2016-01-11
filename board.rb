@@ -26,7 +26,7 @@ class Board
 
   def populate_pawn_row(row_num, color)
     (0..7).each do |ind|
-      @grid[row_num][ind] = Pawn.new(color, [row_num, ind], 1)
+      @grid[row_num][ind] = Pawn.new(color, [row_num, ind])
     end
   end
 end
