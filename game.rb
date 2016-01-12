@@ -31,19 +31,25 @@ class Game
       if selected
         if @display.valid_moves.include?(selected)
           valid_move = true
-          @board.move(@selected_piece, selected)
+          @board.move(@selected_position, selected)
         elsif selected && ((@board.grid[selected[0]][selected[1]].nil?) || (@board.grid[selected[0]][selected[1]].color != @current_player.color))
           @display.valid_moves = []
-          @selected_piece = nil
+          @selected_position = nil
         elsif
           @display.valid_moves = @board.grid[selected[0]][selected[1]].valid_moves
-          @selected_piece = [selected[0], selected[1]]
+          @selected_position = [selected[0], selected[1]]
+          @display.valid_moves.reject! do |move|
+            test_board = @board.dup
+            test_board.move(@selected_position.dup, move)
+            test_board.check?(@current_player.color)
+          end
+
         end
       end
     end
 
     @display.valid_moves = []
-    @selected_piece = nil
+    @selected_position = nil
   end
 
   def over?

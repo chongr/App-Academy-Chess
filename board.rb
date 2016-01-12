@@ -1,5 +1,5 @@
 class Board
-  attr_accessor :grid, :piece_list
+  attr_accessor :grid, :piece_list, :kings
 
   #last_moved
 
@@ -62,6 +62,9 @@ class Board
         piece_row = the_piece.position[0]
         piece_col = the_piece.position[1]
         duped_board.grid[piece_row][piece_col] = the_piece.dup(duped_board)
+        if duped_board.grid[piece_row][piece_col].class == King
+          duped_board.kings[color] = duped_board.grid[piece_row][piece_col]
+        end
         duped_board.piece_list[color] << the_piece.dup(duped_board)
       end
     end
