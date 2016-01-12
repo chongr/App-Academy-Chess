@@ -84,4 +84,22 @@ class Board
 
   end
 
+  def checkmate?(color)
+    piece_list[color].each do |piece|
+      if piece.alive
+        piece_valid_moves = piece.valid_moves
+        piece_valid_moves.reject! do |move|
+          test_board = self.dup
+          test_board.move(piece.position, move)
+          test_board.check?(color)
+        end
+
+        return false if piece_valid_moves.length > 0
+      end
+    end
+
+    true
+
+  end
+
 end

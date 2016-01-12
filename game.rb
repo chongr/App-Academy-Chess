@@ -15,10 +15,15 @@ class Game
   end
 
   def play
-    until over?
-      take_turn
+    over = false
+    until over
+      winner = take_turn
       @current_player = @current_player == @player1 ? @player2 : @player1
+      over = true if winner
     end
+    @display.valid_moves = []
+    @display.render_board(@board.grid)
+    puts "#{winner.to_s.capitalize} wins!!!"
   end
 
   def take_turn
@@ -32,6 +37,8 @@ class Game
         if @display.valid_moves.include?(selected)
           valid_move = true
           @board.move(@selected_position, selected)
+          opponents_color = @current_player.color == :white ? :black : :white
+          return @current_player.color if @board.checkmate?(opponents_color)
         elsif selected && ((@board.grid[selected[0]][selected[1]].nil?) || (@board.grid[selected[0]][selected[1]].color != @current_player.color))
           @display.valid_moves = []
           @selected_position = nil
@@ -43,7 +50,6 @@ class Game
             test_board.move(@selected_position.dup, move)
             test_board.check?(@current_player.color)
           end
-
         end
       end
     end
@@ -52,9 +58,14 @@ class Game
     @selected_position = nil
   end
 
-  def over?
-    false
-  end
+  # def over?
+  #   @board.kings.each do |king|
+  #     if king.alive == false
+  #       return true
+  #     end
+  #   end
+  #   @board.checkmate?
+  # end
 
 end
 
