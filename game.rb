@@ -11,6 +11,7 @@ class Game
     @current_player = @player1
     @display = Display.new
     @board = Board.new
+    @board.populate
   end
 
   def play

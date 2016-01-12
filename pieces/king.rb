@@ -10,4 +10,10 @@ class King < Piece
     "\u265A".encode("utf-8").colorize(:black)
   end
 
+  def valid_moves
+    move_list = []
+
+    
+  end
+
 end
