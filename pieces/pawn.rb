@@ -1,14 +1,11 @@
 class Pawn < Piece
 
   COLOR_DIR = {
-    white: 1
-    black: -1
+    white: -1,
+    black: 1
   }
 
-  SIDES = [
-    1,
-    -1
-  ]
+  SIDES = [1, -1]
 
   def initialize(color, position, board)
     super(color, position, board)
@@ -23,13 +20,18 @@ class Pawn < Piece
   def valid_moves
     move_list = []
     unless @has_moved
-      move_list << [@position[0] + 2 * COLOR_DIR[@color], @position[1]] if !@board[@position[0] + 2 * COLOR_DIR[@color]][@position[1]] && !@board[@position[0] + COLOR_DIR[@color]][@position[1]]
-      #if @board
+      move_list << [@position[0] + 2 * COLOR_DIR[@color], @position[1]] if !@board.grid[@position[0] + 2 * COLOR_DIR[@color]][@position[1]] && !@board.grid[@position[0] + COLOR_DIR[@color]][@position[1]]
+      #if @board.grid
     end
-    move_list << [@position[0] + COLOR_DIR[@color], @position[1]] if !@board[@position[0] + COLOR_DIR[@color]][@position[1]]
-    if @position
+    move_list << [@position[0] + COLOR_DIR[@color], @position[1]] if !@board.grid[@position[0] + COLOR_DIR[@color]][@position[1]]
 
-    end
+    diagleft = [@position[0] + COLOR_DIR[@color], @position[1] + SIDES[0]]
+    diagright = [@position[0] + COLOR_DIR[@color], @position[1] + SIDES[1]]
+
+    move_list << diagleft if diagleft[0] >= 0 && @board.grid[diagleft[0]][diagleft[1]] && @board.grid[diagleft[0]][diagleft[1]].color != @color
+    move_list << diagright if diagright[0] >= 0 && @board.grid[diagright[0]][diagright[1]] && @board.grid[diagright[0]][diagright[1]].color != @color
+
+    move_list
   end
 
 end

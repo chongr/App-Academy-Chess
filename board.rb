@@ -10,9 +10,9 @@ class Board
 
   def populate
     populate_back_row(0, :black)
-    #populate_pawn_row(1, :black)
+    populate_pawn_row(1, :black)
 
-    #populate_pawn_row(6, :white)
+    populate_pawn_row(6, :white)
     populate_back_row(7, :white)
   end
 
