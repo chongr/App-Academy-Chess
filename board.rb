@@ -6,6 +6,7 @@ class Board
   def initialize
     @grid = Array.new(8) {Array.new(8)}
     @piece_list = {white: [], black: []}
+    @kings = {white: nil, black: nil}
   end
 
   def populate
@@ -27,6 +28,7 @@ class Board
     @piece_list[color] << @grid[row_num][3]
     @grid[row_num][4] = King.new(color, [row_num, 4], self)
     @piece_list[color] << @grid[row_num][4]
+    @kings[color] = @grid[row_num][4]
     @grid[row_num][5] = Bishop.new(color, [row_num, 5], self)
     @piece_list[color] << @grid[row_num][5]
     @grid[row_num][6] = Knight.new(color, [row_num, 6], self)
@@ -65,6 +67,18 @@ class Board
     end
 
     duped_board
+  end
+
+  def check?(color)
+    opponents_color = color == :white ? :black : :white
+    opponents_valid_moves = []
+
+    piece_list[opponents_color].each do |piece|
+      opponents_valid_moves.concat(piece.valid_moves)
+    end
+
+    opponents_valid_moves.include?(@kings[color].position)
+
   end
 
 end

@@ -23,7 +23,7 @@ class Display
         if [ind1, ind2] == @cursor_pos
           print to_square(tile, current_color).colorize(:background => :light_red)
         elsif @valid_moves.include?([ind1, ind2])
-          print to_square(tile, current_color).colorize(:background => :yellow)
+          print to_square(tile, current_color).colorize(:background => :light_green)
         else
           print to_square(tile, current_color)
         end
@@ -45,10 +45,10 @@ class Display
 
   def to_square(piece, color)
     if piece
-      return " #{piece.to_chr} ".colorize(:background => :light_yellow) if color == :white
-      return " #{piece.to_chr} ".colorize(:background => :light_blue )
+      return " #{piece.to_chr} ".colorize(:background => :light_black) if color == :white
+      return " #{piece.to_chr} ".colorize(:background => :light_blue)
     else
-      return "   ".colorize(:background => :light_yellow) if color == :white
+      return "   ".colorize(:background => :light_black) if color == :white
       return "   ".colorize(:background => :light_blue)
     end
   end

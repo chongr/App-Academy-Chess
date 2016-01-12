@@ -25,6 +25,7 @@ class Game
     valid_move = false
     until valid_move
       @display.render_board(@board.grid)
+      puts "#{@current_player.color.to_s.capitalize}\'s turn."
       selected = @display.get_input
       #debugger
       if selected
