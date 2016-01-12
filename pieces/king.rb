@@ -1,7 +1,7 @@
 class King < Piece
 
-  def initialize(color, position)
-    super(color, position)
+  def initialize(color, position, board)
+    super(color, position, board)
     @value = 1000
   end
 

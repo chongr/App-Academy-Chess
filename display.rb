@@ -4,9 +4,11 @@ require_relative "cursorable.rb"
 class Display
   include Cursorable
   attr_reader :cursor_pos
+  attr_accessor :valid_moves
 
   def initialize
     @cursor_pos = [7, 3]
+    @valid_moves = []
   end
 
   def render_board(grid)
@@ -20,6 +22,8 @@ class Display
       row.each_with_index do |tile, ind2|
         if [ind1, ind2] == @cursor_pos
           print to_square(tile, current_color).colorize(:background => :light_red)
+        elsif @valid_moves.include?([ind1, ind2])
+          print to_square(tile, current_color).colorize(:background => :yellow)
         else
           print to_square(tile, current_color)
         end
@@ -29,6 +33,8 @@ class Display
           else
             current_color = :white
           end
+
+          # current_color = current_color == :white ? :black : :white
         else
           print "\n"
         end
