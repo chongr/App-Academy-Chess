@@ -32,6 +32,8 @@ POS_MOVES_DIFFS = [
       end
       move_list << [new_row, new_col] if in_range and !on_piece
     end
+    #unless @has_moved
+
     move_list
   end
 

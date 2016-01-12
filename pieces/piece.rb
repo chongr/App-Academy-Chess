@@ -27,6 +27,8 @@ class Piece
     new_piece
   end
 
-
+  def pretty_print
+    ["Type = #{self.class}", "Color = #{@color}", "Position = #{@position}", "Has Moved = #{@has_moved}", "Alive = #{@alive}"]
+  end
 
 end

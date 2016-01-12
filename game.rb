@@ -2,6 +2,7 @@ require_relative 'player.rb'
 require_relative 'board.rb'
 require_relative 'pieces.rb'
 require_relative 'display.rb'
+require 'byebug'
 
 class Game
 
@@ -28,6 +29,7 @@ class Game
 
   def take_turn
     valid_move = false
+    test_board = []
     until valid_move
       @display.render_board(@board.grid)
       puts "#{@current_player.color.to_s.capitalize}\'s turn."
@@ -49,7 +51,9 @@ class Game
             test_board = @board.dup
             test_board.move(@selected_position.dup, move)
             test_board.check?(@current_player.color)
+            #debugger
           end
+          #debugger
         end
       end
     end
@@ -57,15 +61,6 @@ class Game
     @display.valid_moves = []
     @selected_position = nil
   end
-
-  # def over?
-  #   @board.kings.each do |king|
-  #     if king.alive == false
-  #       return true
-  #     end
-  #   end
-  #   @board.checkmate?
-  # end
 
 end
 

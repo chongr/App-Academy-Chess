@@ -23,13 +23,13 @@ class Pawn < Piece
       move_list << [@position[0] + 2 * COLOR_DIR[@color], @position[1]] if !@board.grid[@position[0] + 2 * COLOR_DIR[@color]][@position[1]] && !@board.grid[@position[0] + COLOR_DIR[@color]][@position[1]]
       #if @board.grid
     end
-    move_list << [@position[0] + COLOR_DIR[@color], @position[1]] if !@board.grid[@position[0] + COLOR_DIR[@color]][@position[1]]
+    move_list << [@position[0] + COLOR_DIR[@color], @position[1]] if @position[0] + COLOR_DIR[@color] < 8 && @position[0] + COLOR_DIR[@color] >= 0 && !@board.grid[@position[0] + COLOR_DIR[@color]][@position[1]]
 
     diagleft = [@position[0] + COLOR_DIR[@color], @position[1] + SIDES[0]]
     diagright = [@position[0] + COLOR_DIR[@color], @position[1] + SIDES[1]]
 
-    move_list << diagleft if diagleft[0] >= 0 && @board.grid[diagleft[0]][diagleft[1]] && @board.grid[diagleft[0]][diagleft[1]].color != @color
-    move_list << diagright if diagright[0] >= 0 && @board.grid[diagright[0]][diagright[1]] && @board.grid[diagright[0]][diagright[1]].color != @color
+    move_list << diagleft if diagleft[0] >= 0 && diagleft[0] < 8 && @board.grid[diagleft[0]][diagleft[1]] && @board.grid[diagleft[0]][diagleft[1]].color != @color
+    move_list << diagright if diagright[0] >= 0 && diagright[0] < 8 && @board.grid[diagright[0]][diagright[1]] && @board.grid[diagright[0]][diagright[1]].color != @color
 
     move_list
   end
