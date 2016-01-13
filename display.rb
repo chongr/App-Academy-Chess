@@ -20,21 +20,10 @@ class Display
     grid.each_with_index do |row, ind1| # TODO refractor to smaller methods
       print " #{8-ind1} "
       row.each_with_index do |tile, ind2|
-        if [ind1, ind2] == @cursor_pos
-          print to_square(tile, current_color).colorize(:background => :light_red)
-        elsif @valid_moves.include?([ind1, ind2])
-          print to_square(tile, current_color).colorize(:background => :light_green)
-        else
-          print to_square(tile, current_color)
-        end
-        if ind2 < 7
-          if current_color == :white
-            current_color = :black
-          else
-            current_color = :white
-          end
+        print_square(current_color, ind1, ind2, tile)
 
-          # TODO current_color = current_color == :white ? :black : :white
+        if ind2 < 7
+          current_color = current_color == :white ? :black : :white
         else
           if ind1 == 1
             print "   "
@@ -65,6 +54,16 @@ class Display
 
       end
     end
+  end
+
+  def print_square(current_color, ind1, ind2, tile)
+        if [ind1, ind2] == @cursor_pos
+          print to_square(tile, current_color).colorize(:background => :light_red)
+        elsif @valid_moves.include?([ind1, ind2])
+          print to_square(tile, current_color).colorize(:background => :light_green)
+        else
+          print to_square(tile, current_color)
+        end
   end
 
   def to_square(piece, color)

@@ -94,9 +94,7 @@ class Board
     piece_list.each do |color, pieces_to_place|
       pieces_to_place.each do |the_piece|
         if the_piece.alive
-          piece_row = the_piece.position[0]
-          piece_col = the_piece.position[1]
-          # TODO piece_row, piece_col = the_piece.position
+          piece_row, piece_col = the_piece.position
 
           ghost_piece = the_piece.dup(duped_board)
           duped_board.grid[piece_row][piece_col] = ghost_piece
@@ -140,21 +138,5 @@ class Board
 
     true
   end
-
-  # TODO remove once done
-  def pretty_grid # debug method
-    new_grid = []
-    @grid.each do |row|
-      row_hold = []
-      row.each do |spot|
-        if spot
-          spot = spot.pretty_print
-        end
-        row_hold << spot
-      end
-      new_grid << row_hold
-    end
-    new_grid
-  end
-
+  
 end
