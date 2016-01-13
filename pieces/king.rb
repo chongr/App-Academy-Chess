@@ -32,9 +32,25 @@ POS_MOVES_DIFFS = [
       end
       move_list << [new_row, new_col] if in_range and !on_piece
     end
-    #unless @has_moved
+    move_list.concat(self.castles)
 
     move_list
+  end
+
+  def castles
+    return [] if @has_moved
+    valids = []
+    if @board.grid[position[0]][0] && @board.grid[position[0]][0].class == Rook && !@board.grid[position[0]][0].has_moved
+      if !@board.grid[position[0]][1] && !@board.grid[position[0]][2] && !@board.grid[position[0]][3]
+        valids << [position[0], 2]
+      end
+    end
+    if @board.grid[position[0]][7] && @board.grid[position[0]][7].class == Rook && !@board.grid[position[0]][7].has_moved
+      if !@board.grid[position[0]][5] && !@board.grid[position[0]][6]
+        valids << [position[0], 6]
+      end
+    end
+    valids
   end
 
 end

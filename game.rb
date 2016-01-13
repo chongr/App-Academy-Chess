@@ -17,24 +17,31 @@ class Game
 
   def play
     over = false
+
     until over
       winner = take_turn
       @current_player = @current_player == @player1 ? @player2 : @player1
       over = true if winner
     end
+
     @display.valid_moves = []
-    @display.render_board(@board.grid)
-    puts "#{winner.to_s.capitalize} wins!!!"
+    @display.render_board(@board.grid, @board.piece_list)
+    loser_color = @current_player.color == :white ? :black : :white
+
+    if @board.check?(loser_color)
+      puts "#{winner.to_s.capitalize} wins!!!"
+    else
+      puts "Stalemate :( :( :("
+    end
   end
 
   def take_turn
     valid_move = false
     test_board = []
-    until valid_move
-      @display.render_board(@board.grid)
+    until valid_move # TODO refactor
+      @display.render_board(@board.grid, @board.piece_list)
       puts "#{@current_player.color.to_s.capitalize}\'s turn."
       selected = @display.get_input
-      #debugger
       if selected
         if @display.valid_moves.include?(selected)
           valid_move = true
@@ -46,14 +53,12 @@ class Game
           @selected_position = nil
         elsif
           @display.valid_moves = @board.grid[selected[0]][selected[1]].valid_moves
-          @selected_position = [selected[0], selected[1]]
+          @selected_position = selected
           @display.valid_moves.reject! do |move|
             test_board = @board.dup
             test_board.move(@selected_position.dup, move)
             test_board.check?(@current_player.color)
-            #debugger
           end
-          #debugger
         end
       end
     end

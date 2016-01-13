@@ -11,13 +11,13 @@ class Display
     @valid_moves = []
   end
 
-  def render_board(grid)
+  def render_board(grid, piece_list)
     @board = grid
     current_color = :white
     system("clear")
     print " \\  a  b  c  d  e  f  g  h \n"
 
-    grid.each_with_index do |row, ind1|
+    grid.each_with_index do |row, ind1| # TODO refractor to smaller methods
       print " #{8-ind1} "
       row.each_with_index do |tile, ind2|
         if [ind1, ind2] == @cursor_pos
@@ -34,8 +34,32 @@ class Display
             current_color = :white
           end
 
-          # current_color = current_color == :white ? :black : :white
+          # TODO current_color = current_color == :white ? :black : :white
         else
+          if ind1 == 1
+            print "   "
+            lost = []
+            piece_list[:white].each do |piece|
+              unless piece.alive
+                lost << piece
+              end
+            end
+            lost.each do |dead_piece|
+              print " #{dead_piece.to_chr} "
+            end
+          end
+          if ind1 == 3
+            print "   "
+            lost = []
+            piece_list[:black].each do |piece|
+              unless piece.alive
+                lost << piece
+              end
+            end
+            lost.each do |dead_piece|
+              print " #{dead_piece.to_chr} ".colorize(:background => :white)
+            end
+          end
           print "\n"
         end
 

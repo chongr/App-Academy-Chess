@@ -1,5 +1,5 @@
 class Rook < Piece
-  include Orth_module
+  # include Orth_module
 
   def initialize(color, position, board)
     super(color, position, board)

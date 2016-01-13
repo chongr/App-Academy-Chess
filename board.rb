@@ -1,8 +1,6 @@
 class Board
   attr_accessor :grid, :piece_list, :kings
 
-  #last_moved
-
   def initialize
     @grid = Array.new(8) {Array.new(8)}
     @piece_list = {white: [], black: []}
@@ -37,12 +35,6 @@ class Board
     @piece_list[color] << @grid[row_num][7]
   end
 
-  def populate_problem
-    @grid[4][4] = Pawn.new(:white, [4,4], self)
-    @grid[3][5] = King.new(:black, [3, 5], self)
-
-  end
-
   def populate_pawn_row(row_num, color)
     (0..7).each do |ind|
       @grid[row_num][ind] = Pawn.new(color, [row_num, ind], self)
@@ -51,9 +43,13 @@ class Board
   end
 
   def move(from_pos, to_pos)
-    # if to_pos == [4,4]
-    #   debugger
-    # end
+    if @grid[from_pos[0]][from_pos[1]].class == King && !@grid[from_pos[0]][from_pos[1]].has_moved && (to_pos[1] == 2 || to_pos[1] == 6)
+      if to_pos[1] == 2
+        self.move([from_pos[0], 0], [from_pos[0], 3])
+      else
+        self.move([from_pos[0], 7], [from_pos[0], 5])
+      end
+    end
     @grid[to_pos[0]][to_pos[1]].alive = false unless @grid[to_pos[0]][to_pos[1]].nil?
 
     unless @grid[from_pos[0]][from_pos[1]].has_moved
@@ -66,11 +62,14 @@ class Board
 
   def dup
     duped_board = Board.new
+
     piece_list.each do |color, pieces_to_place|
       pieces_to_place.each do |the_piece|
         if the_piece.alive
           piece_row = the_piece.position[0]
           piece_col = the_piece.position[1]
+          # TODO piece_row, piece_col = the_piece.position
+
           ghost_piece = the_piece.dup(duped_board)
           duped_board.grid[piece_row][piece_col] = ghost_piece
           if duped_board.grid[piece_row][piece_col].class == King
@@ -112,10 +111,10 @@ class Board
     end
 
     true
-
   end
 
-  def pretty_grid
+  # TODO remove once done
+  def pretty_grid # debug method
     new_grid = []
     @grid.each do |row|
       row_hold = []
