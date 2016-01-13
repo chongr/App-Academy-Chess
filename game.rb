@@ -26,9 +26,8 @@ class Game
 
     @display.valid_moves = []
     @display.render_board(@board.grid, @board.piece_list)
-    loser_color = @current_player.color == :white ? :black : :white
 
-    if @board.check?(loser_color)
+    if @board.check?(@current_player.color)
       puts "#{winner.to_s.capitalize} wins!!!"
     else
       puts "Stalemate :( :( :("
